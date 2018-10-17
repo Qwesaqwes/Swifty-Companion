@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
+
     var profile:Profile?
     
     @IBOutlet weak var loginText: UILabel!
@@ -24,6 +25,8 @@ class ProfileViewController: UIViewController
     
     @IBOutlet weak var topView: UIView!
     
+    @IBOutlet weak var skillTableView: UITableView!
+    @IBOutlet weak var projectTableView: UITableView!
     
     /*--------------------------------------*/
     /*---------------FUNCTION---------------*/
@@ -65,9 +68,36 @@ class ProfileViewController: UIViewController
         }
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == skillTableView
+        {
+            return (profile?.cursus_users.first!.skills.count)!
+        }
+        else
+        {
+            return (profile?.projects_users.count)!
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == skillTableView
+        {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "skillCell") as! SkillTableViewCell
+            cell.displaySkill(skill: (profile?.cursus_users.first!.skills[indexPath.row])!)
+            return cell
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "projectCell") as! ProjectTableViewCell
+        cell.displayProject(project: (profile?.projects_users[indexPath.row])!)
+        return cell
+    }
+    
+    
     /*--------------------------------------*/
     /*---------------OVERRIDE---------------*/
     /*--------------------------------------*/
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +107,7 @@ class ProfileViewController: UIViewController
         displayTopView()
         
         
-        
+        print (profile?.projects_users as Any)
 //        print (profile as Any)
     }
 

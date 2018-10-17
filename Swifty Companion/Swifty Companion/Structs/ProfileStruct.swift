@@ -20,10 +20,31 @@ struct Profile: Codable
     let email:String
     
     let cursus_users:[User]
-    
+    let projects_users:[Project]
 }
 
 struct User: Codable
 {
     let level:Float
+    let skills:[Skill]
+}
+
+struct Skill: Codable
+{
+    let level:Float
+    let name:String
+}
+
+struct Project: Codable
+{
+    let cursus_ids:[Int]
+    let final_mark:Int?
+    let project:ProjectInfo
+    let status:String
+}
+
+struct ProjectInfo: Codable
+{
+    let name:String
+    let slug:String
 }

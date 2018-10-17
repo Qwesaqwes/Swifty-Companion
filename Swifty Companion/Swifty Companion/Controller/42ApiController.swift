@@ -52,7 +52,6 @@ class Api42Controller
     func searchUser(login:String)
     {
         let trimmedString = login.replacingOccurrences(of: " ", with: "")
-//        print (trimmedString)
         let url = URL(string: "https://api.intra.42.fr/v2/users/" + trimmedString.lowercased())
         let request = NSMutableURLRequest(url: url!)
         request.httpMethod = "GET"
@@ -76,6 +75,9 @@ class Api42Controller
                             }
                         }
                     }
+//                    if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
+//                        print (dic)
+//                    }
                 }
                 catch (let err) {
                     print (err)

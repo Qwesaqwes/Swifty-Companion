@@ -26,7 +26,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var topView: UIView!
     
     @IBOutlet weak var skillTableView: UITableView!
-    @IBOutlet weak var projectTableView: UITableView!
     
     /*--------------------------------------*/
     /*---------------FUNCTION---------------*/

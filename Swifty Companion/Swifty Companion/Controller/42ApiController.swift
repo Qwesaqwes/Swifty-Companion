@@ -104,7 +104,15 @@ class Api42Controller
                     if let dic = try JSONSerialization.jsonObject(with: d, options:[]) as? [NSDictionary] {
                         print (dic.first as Any)
                         print (dic.first?.value(forKey: "name") as Any)
-                        action(dic.first?.value(forKey: "id")! as! Int)
+                        if let id = dic.first?.value(forKey: "id")
+                        {
+                            action(id as! Int)
+                        }
+                        else
+                        {
+                            action(0)
+                        }
+//                        action((dic.first?.value(forKey: "id") as? Int)!)
                         return
                     }
                     print ("ADF")

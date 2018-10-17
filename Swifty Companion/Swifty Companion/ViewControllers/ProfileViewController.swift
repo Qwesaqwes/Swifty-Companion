@@ -134,10 +134,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 UIGraphicsEndImageContext()
                 self.topView.backgroundColor = UIColor(patternImage: image)
             }
-            else
+            else if self.backgroundId == 1
             {
                 UIGraphicsBeginImageContext(self.topView.frame.size)
                 UIImage(named: "federation_background")?.draw(in: self.topView.bounds)
+                let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                self.topView.backgroundColor = UIColor(patternImage: image)
+            }
+            else
+            {
+                UIGraphicsBeginImageContext(self.topView.frame.size)
+                UIImage(named: "default_background")?.draw(in: self.topView.bounds)
                 let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
                 UIGraphicsEndImageContext()
                 self.topView.backgroundColor = UIColor(patternImage: image)
@@ -185,11 +193,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.topView.backgroundColor = UIColor(patternImage: image)
                 }
             }
-            else
+            else if id == 1
             {
                 DispatchQueue.main.async {
                     UIGraphicsBeginImageContext(self.topView.frame.size)
                     UIImage(named: "federation_background")?.draw(in: self.topView.bounds)
+                    let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.topView.backgroundColor = UIColor(patternImage: image)
+                }
+            }
+            else
+            {
+                DispatchQueue.main.async {
+                    UIGraphicsBeginImageContext(self.topView.frame.size)
+                    UIImage(named: "default_background")?.draw(in: self.topView.bounds)
                     let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
                     UIGraphicsEndImageContext()
                     self.topView.backgroundColor = UIColor(patternImage: image)

@@ -18,7 +18,7 @@ class ProjectTableViewCell: UITableViewCell
     {
         if let score = project.final_mark
         {
-            if Int(score) >= 75
+            if score >= 50
             {
                 self.backgroundColor = UIColor.green.withAlphaComponent(0.2)
             }
@@ -30,7 +30,7 @@ class ProjectTableViewCell: UITableViewCell
         }
         else
         {
-            projectText.text = String(describing: String(project.project.name) + " - NULL")
+            projectText.text = String(describing: String(project.project.name) + " - No Mark")
         }
     }
     

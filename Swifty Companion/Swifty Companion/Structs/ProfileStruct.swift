@@ -18,6 +18,7 @@ struct Profile: Codable
     let location:String?
     let image_url:String
     let email:String
+    let id:Int
     
     let cursus_users:[User]
     let projects_users:[Project]
@@ -48,3 +49,27 @@ struct ProjectInfo: Codable
     let name:String
     let slug:String
 }
+
+struct Coalition: Codable
+{
+    let name:String
+    
+    init (name:String)
+    {
+        self.name = name
+    }
+}
+//
+//extension Coalition: Decodable {
+//    enum MyStructKeys: String, CodingKey { // declaring our keys
+//        case Name = "name"
+//    }
+//    
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: MyStructKeys.self) // defining our (keyed) container
+//        let fullName: String = try container.decode(String.self, forKey: .Name) // extracting the data
+//        
+//        self.init(name: fullName) // initializing our struct
+//    }
+//}
+

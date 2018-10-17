@@ -15,8 +15,8 @@ class SkillTableViewCell: UITableViewCell
     
     func displaySkill(skill:Skill)
     {
-        skillText.text = String(describing: String(skill.name) + " - " + String(skill.level))
-        progressBar.progress = Float(skill.level) - Float(Int(skill.level))
+        skillText.text = String(describing: String(skill.name) + " - " + String(skill.level) + "%")
+        progressBar.progress = Float(skill.level) / 21.0
     }
     
     override func awakeFromNib() {

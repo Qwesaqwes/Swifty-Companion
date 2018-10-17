@@ -75,15 +75,42 @@ class Api42Controller
                             }
                         }
                     }
-//                    if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
-//                        print (dic)
-//                    }
                 }
                 catch (let err) {
                     print (err)
                     DispatchQueue.main.async {
                             self.viewController?.loginNotFound()
                     }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func getCoallition(user_id:String, action:@escaping (Int)->Void)
+    {
+        let url = URL(string: "https://api.intra.42.fr/v2/users/" + user_id + "/coalitions?sort=user_id")
+        let request = NSMutableURLRequest(url: url!)
+        request.httpMethod = "GET"
+        request.setValue("Bearer " + token!, forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            if let err = error {
+                print (err)
+            }
+            else if let d = data {
+                do {
+                    if let dic = try JSONSerialization.jsonObject(with: d, options:[]) as? [NSDictionary] {
+                        print (dic.first as Any)
+                        print (dic.first?.value(forKey: "name") as Any)
+                        action(dic.first?.value(forKey: "id")! as! Int)
+                        return
+                    }
+                    print ("ADF")
+                }
+                catch (let err) {
+                    print (err)
                 }
             }
         }

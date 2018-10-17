@@ -56,6 +56,7 @@ class ViewController: UIViewController
             if let vc = segue.destination as? ProfileViewController
             {
                 vc.profile = (sender as! Profile)
+                vc.api42Controller = api42Controller!
             }
         }
     }

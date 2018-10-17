@@ -12,6 +12,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 {
 
     var profile:Profile?
+    var api42Controller:Api42Controller?
     
     @IBOutlet weak var loginText: UILabel!
     @IBOutlet weak var emailText: UILabel!
@@ -22,10 +23,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var levelText: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var progressBar: UIProgressView!
-    
     @IBOutlet weak var topView: UIView!
-    
     @IBOutlet weak var skillTableView: UITableView!
+    
+    var tmpArray:[Project] = []
+    var backgroundId:Int = 0
     
     /*--------------------------------------*/
     /*---------------FUNCTION---------------*/
@@ -33,8 +35,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func displayTopView()
     {
-        topView.backgroundColor = UIColor.gray
-        
         loginText.text = profile?.login
         emailText.text = profile?.email
         if let loc = profile?.location
@@ -72,10 +72,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         {
             return (profile?.cursus_users.first!.skills.count)!
         }
-        else
+        else if !(tmpArray.isEmpty)
         {
-            return (profile?.projects_users.count)!
+            var i:Int = 0
+            for a in tmpArray
+            {
+                if a.project.name.contains("Day") || a.cursus_ids.first == 4
+                {
+                    tmpArray.remove(at: i)
+                }
+                else
+                {
+                    i += 1
+                }
+            }
         }
+        return tmpArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,7 +98,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "projectCell") as! ProjectTableViewCell
-        cell.displayProject(project: (profile?.projects_users[indexPath.row])!)
+        cell.displayProject(project: tmpArray[indexPath.row])
         return cell
     }
     
@@ -95,7 +107,44 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     /*---------------OVERRIDE---------------*/
     /*--------------------------------------*/
     
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+        },completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            if (self.backgroundId == 2)
+            {
+                UIGraphicsBeginImageContext(self.topView.frame.size)
+                UIImage(named: "alliance_background")?.draw(in: self.topView.bounds)
+                let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                self.topView.backgroundColor = UIColor(patternImage: image)
+            }
+            else if self.backgroundId == 3
+            {
+                UIGraphicsBeginImageContext(self.topView.frame.size)
+                UIImage(named: "assembly_background")?.draw(in: self.topView.bounds)
+                let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                self.topView.backgroundColor = UIColor(patternImage: image)
+            }
+            else if self.backgroundId == 4
+            {
+                UIGraphicsBeginImageContext(self.topView.frame.size)
+                UIImage(named: "order_background")?.draw(in: self.topView.bounds)
+                let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                self.topView.backgroundColor = UIColor(patternImage: image)
+            }
+            else
+            {
+                UIGraphicsBeginImageContext(self.topView.frame.size)
+                UIImage(named: "federation_background")?.draw(in: self.topView.bounds)
+                let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                UIGraphicsEndImageContext()
+                self.topView.backgroundColor = UIColor(patternImage: image)
+            }
+        })
+        super.viewWillTransition(to: size, with: coordinator)
+    }
     
     
     override func viewDidLoad() {
@@ -103,10 +152,58 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         // Do any additional setup after loading the view.
         
+        api42Controller?.getCoallition(user_id: (profile?.login)!) {
+            id in
+            self.backgroundId = id
+            if (id == 2)
+            {
+                DispatchQueue.main.async {
+                    UIGraphicsBeginImageContext(self.topView.frame.size)
+                    UIImage(named: "alliance_background")?.draw(in: self.topView.bounds)
+                    let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.topView.backgroundColor = UIColor(patternImage: image)
+                }
+            }
+            else if id == 3
+            {
+                DispatchQueue.main.async {
+                    UIGraphicsBeginImageContext(self.topView.frame.size)
+                    UIImage(named: "assembly_background")?.draw(in: self.topView.bounds)
+                    let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.topView.backgroundColor = UIColor(patternImage: image)
+                }
+            }
+            else if id == 4
+            {
+                DispatchQueue.main.async {
+                    UIGraphicsBeginImageContext(self.topView.frame.size)
+                    UIImage(named: "order_background")?.draw(in: self.topView.bounds)
+                    let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.topView.backgroundColor = UIColor(patternImage: image)
+                }
+            }
+            else
+            {
+                DispatchQueue.main.async {
+                    UIGraphicsBeginImageContext(self.topView.frame.size)
+                    UIImage(named: "federation_background")?.draw(in: self.topView.bounds)
+                    let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+                    UIGraphicsEndImageContext()
+                    self.topView.backgroundColor = UIColor(patternImage: image)
+                }
+            }
+        }
+        if let arr = profile?.projects_users
+        {
+            tmpArray = arr
+        }
         displayTopView()
         
         
-        print (profile?.projects_users as Any)
+//        print (profile?.projects_users as Any)
 //        print (profile as Any)
     }
 

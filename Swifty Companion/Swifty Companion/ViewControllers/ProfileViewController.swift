@@ -154,7 +154,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillTransition(to: size, with: coordinator)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -230,3 +229,5 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
 }
+
+

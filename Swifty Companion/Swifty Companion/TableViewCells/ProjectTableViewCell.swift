@@ -16,6 +16,7 @@ class ProjectTableViewCell: UITableViewCell
     
     func displayProject(project: Project)
     {
+//        print (project.validated as Any)
         if let score = project.final_mark
         {
             if score >= 50
@@ -30,6 +31,7 @@ class ProjectTableViewCell: UITableViewCell
         }
         else
         {
+            self.backgroundColor = UIColor.white.withAlphaComponent(1)
             projectText.text = String(describing: String(project.project.name) + " - No Mark")
         }
     }

@@ -39,6 +39,7 @@ class Api42Controller
                     if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
                         print (dic)
                         self.token = (dic["access_token"] as! String)
+//                        self.token = "ad9ccd49d63be631ebc6c00a60b664eac4e6e71c328e727a83c792c62027ced2"
                     }
                 }
                 catch (let err) {
@@ -75,9 +76,13 @@ class Api42Controller
                             }
                         }
                     }
+//                    if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
+//                        print (dic)
+//                    }
                 }
                 catch (let err) {
                     print (err)
+//                    print ("error token here")
                     DispatchQueue.main.async {
                             self.viewController?.loginNotFound()
                     }

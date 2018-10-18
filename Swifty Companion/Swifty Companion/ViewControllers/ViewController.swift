@@ -61,11 +61,29 @@ class ViewController: UIViewController
         }
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+        },completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            UIGraphicsBeginImageContext(self.view.frame.size)
+            UIImage(named: "default_background")?.draw(in: self.view.bounds)
+            let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            self.view.backgroundColor = UIColor(patternImage: image)
+        })
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "assembly_background")!)
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "default_background")?.draw(in: self.view.bounds)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.view.backgroundColor = UIColor(patternImage: image)
+        
+
         loginText.layer.cornerRadius = 0.5
         searchButton.layer.cornerRadius = 5
         

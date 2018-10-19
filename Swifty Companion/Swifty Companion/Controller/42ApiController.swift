@@ -15,6 +15,8 @@ class Api42Controller
     
     var token:String?
     var viewController:ViewController?
+    
+//    var test:Bool = false
 
     func getToken()
     {
@@ -38,11 +40,22 @@ class Api42Controller
                 do {
                     if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
                         print (dic)
-                        self.token = (dic["access_token"] as! String)
-//                        self.token = "ad9ccd49d63be631ebc6c00a60b664eac4e6e71c328e727a83c792c62027ced2"
+                        
+//                        if self.test == false
+//                        {
+//                            print ("enter expire token")
+//                            self.token = "ad9ccd49d63be631ebc6c00a60b664eac4e6e71c328e727a83c792c62027ced2"
+//                        }
+//                        else
+//                        {
+//                            print ("enter refresh token")
+                            self.token = (dic["access_token"] as! String)
+//                        }
+                        
                     }
                 }
                 catch (let err) {
+                    print ("didnt enter dictionary")
                     print (err)
                 }
             }
@@ -65,26 +78,41 @@ class Api42Controller
             }
             else if let d = data {
                 do {
-                    let decoder = JSONDecoder()
-                    if let user = try decoder.decode(Profile.self, from: d) as Profile? {
-                        
-                        if login.lowercased().compare(user.login.lowercased()).rawValue == 0
+                    if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
+                        if let _ = dic["message"] as? String
                         {
-                            //login searched is correct, need to display new view with the information of the login
-                            DispatchQueue.main.async {
-                                self.viewController?.performSegue(withIdentifier: "userSegue", sender: user)
+//                            self.test = true
+                            self.getToken()
+                            self.searchUser(login: login)
+                        }
+                        else
+                        {
+                            do {
+                                let decoder = JSONDecoder()
+                                if let user = try decoder.decode(Profile.self, from: d) as Profile? {
+                                    if login.lowercased().compare(user.login.lowercased()).rawValue == 0
+                                    {
+                                        //login searched is correct, need to display new view with the information of the login
+                                        DispatchQueue.main.async {
+                                            self.viewController?.performSegue(withIdentifier: "userSegue", sender: user)
+                                        }
+                                    }
+                                }
+                            }
+                            catch (let err)
+                            {
+                                print (err)
+                                DispatchQueue.main.async {
+                                    self.viewController?.loginNotFound()
+                                }
                             }
                         }
                     }
-//                    if let dic : NSDictionary = try JSONSerialization.jsonObject(with: d, options:JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
-//                        print (dic)
-//                    }
                 }
                 catch (let err) {
                     print (err)
-//                    print ("error token here")
                     DispatchQueue.main.async {
-                            self.viewController?.loginNotFound()
+                        self.viewController?.loginNotFound()
                     }
                 }
             }

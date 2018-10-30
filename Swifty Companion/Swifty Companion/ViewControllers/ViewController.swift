@@ -22,6 +22,7 @@ class ViewController: UIViewController
     
     @IBAction func search(_ sender: UIButton)
     {
+        searchButton.isEnabled = false
         if (loginText.text != "")
         {
             api42Controller?.searchUser(login: loginText.text!)

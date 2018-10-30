@@ -94,6 +94,7 @@ class Api42Controller
                                     {
                                         //login searched is correct, need to display new view with the information of the login
                                         DispatchQueue.main.async {
+                                            self.viewController?.searchButton.isEnabled = true
                                             self.viewController?.performSegue(withIdentifier: "userSegue", sender: user)
                                         }
                                     }
@@ -103,6 +104,7 @@ class Api42Controller
                             {
                                 print (err)
                                 DispatchQueue.main.async {
+                                    self.viewController?.searchButton.isEnabled = true
                                     self.viewController?.loginNotFound()
                                 }
                             }
